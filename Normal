@@ -1,0 +1,37 @@
+from imageai.Detection import VideoObjectDetection
+import os
+
+calistirma_yolu = os.getcwd()
+
+
+def herframeicin(frame_number, output_array, output_count):
+    print("Her frame için ", frame_number)
+    print("Bütün objelerin çıktısı Ç ", output_array)
+    print("Frame içindeki özel objelerin çıktısı :  ", output_count)
+
+
+def hersaniyeicin(second_number, output_arrays, count_arrays, average_output_count):
+    print("Saniye : ", second_number)
+    print("Her karenin çıktıları için sonuç", output_arrays)
+    print("Her karenin içindeki özel objeler : ", count_arrays)
+    print("Son saniyedeki benzersiz nesneler için çıktı ortalama sayısı :", average_output_count)
+    print("********** SANİYE SONU ***********")
+
+
+def herdakkaicin(minute_number, output_arrays,  count_arrays, average_output_count):
+    print("Dakka :",minute_number)
+    print("Bütün frame için çıktılar : ", output_arrays)
+    print("Bütün Özel objeler için her frame çıktısı : ", count_arrays)
+    print("Son dakikada benzersiz nesneler için çıktı ortalama sayısı : ", average_output_count)
+    print("*********** DAKKA SONU ************")
+
+
+detektor = VideoObjectDetection()
+detektor.setModelTypeAsRetinaNet()
+detektor.setModelPath(os.path.join(calistirma_yolu, "resnet50_coco_best_v2.0.1.h5"))
+detektor.loadModel()
+detektor.loadModel(detection_speed="normal")
+
+videoo = detektor.detectObjectsFromVideo(input_file_path=os.path.join(calistirma_yolu, "VID-20190201-WA0008.mp4"),
+                                         output_file_path=os.path.join(calistirma_yolu, "Deneme")
+                                         , frames_per_second=20, log_progress=True, per_frame_function=herframeicin, per_second_function=hersaniyeicin, per_minute_function=herdakkaicin,detection_timeout=15)
