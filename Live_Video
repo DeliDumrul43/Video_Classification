@@ -1,0 +1,20 @@
+import cv2
+
+calıs = os.getcwd()
+
+kamera = cv2.VideoCapture(0)
+
+detektor = VideoObjectDetection()
+
+detektor.setModelTypeAsRetinaNet()
+
+detektor.setModelPath(os.path.join(calıs, "resnet50_coco_best_v2.0.1.h5"))
+
+detektor.loadModel()
+
+detektor.loadModel(detection_speed="normal")
+
+custom_objects = detektor.CustomObjects(person=True)
+
+video_yolu = detektor.detectObjectsFromVideo(camera_input=kamera,output_file_path=os.path.join(calıs, "kamera_algıla"),
+                                             frames_per_second=9, log_progress=True, minimum_percentage_probability=40, detection_timeout=120)
